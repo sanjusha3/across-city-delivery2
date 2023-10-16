@@ -1,0 +1,26 @@
+<nav class="navbar navbar-dark bg-dark">
+  <form class="container-fluid justify-content-start">
+    <button
+      routerLink="/signup"
+      class="btn btn-sm btn-success me-2"
+      type="button"
+    >
+      Register
+    </button>
+    <button
+      routerLink="/login"
+      class="btn btn-sm btn-success me-2"
+      type="button"
+    >
+      Login
+    </button>
+    <button
+      routerLink="/login"
+      [queryParams]="{ logout: true }"
+      class="btn btn-sm btn-success me-2"
+      type="button"
+    >
+      Logout
+    </button>
+  </form>
+</nav>

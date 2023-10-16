@@ -1,0 +1,9 @@
+.container {
+  margin: 30px;
+}
+.form-group {
+  margin: 20px;
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
