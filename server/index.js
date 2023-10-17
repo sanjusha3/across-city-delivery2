@@ -38,6 +38,9 @@ app.get('/', (req, res, next) => {
 })
 
 app.use('', require('./routes/authRoutes'));
+app.use('', require('./routes/adminRoutes'));
+app.use('', require('./routes/userRoutes'));
+
 
 app.use((err, req, res, next) => {
     if (err) {
