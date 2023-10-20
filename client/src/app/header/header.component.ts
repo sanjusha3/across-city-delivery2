@@ -8,4 +8,11 @@ import { AuthService } from '../auth/auth.service';
 })
 export class HeaderComponent {
   constructor(public authService: AuthService) {}
+
+  Logout() {
+    if (this.authService.isAuthenticated || this.authService.isAdmin) {
+      this.authService.logoutUser();
+      alert('You are now logged out!');
+    }
+  }
 }

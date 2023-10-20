@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+// import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,25 +16,22 @@ export class LoginComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private router: Router
+  ) // private activatedRoute: ActivatedRoute
+  {}
 
   ngOnInit() {
     this.loginForm = new FormGroup({
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
     });
-    this.activatedRoute.queryParamMap.subscribe((queries) => {
-      const logout = Boolean(queries.get('logout'));
-      if (logout) {
-        this.authService.logoutUser();
-        alert(
-          'You are now logged out!.IsAuthenticated =' +
-            this.authService.isAuthenticated
-        );
-      }
-    });
+    // this.activatedRoute.queryParamMap.subscribe((queries) => {
+    //   const logout = Boolean(queries.get('logout'));
+    //   if (logout) {
+    //     this.authService.logoutUser();
+    //     alert('You are now logged out!');
+    //   }
+    // });
   }
 
   errorVal: String;

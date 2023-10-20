@@ -10,6 +10,8 @@ const localUsername = localStorage.getItem('username');
 export class AppComponent implements OnInit {
   constructor(public authService: AuthService) {}
   ngOnInit() {
+    console.log(localUsername);
+
     if (localUsername) {
       if (localUsername === 'Admin') {
         this.authService.isAdmin = true;
@@ -17,6 +19,5 @@ export class AppComponent implements OnInit {
         this.authService.isAuthenticated = true;
       }
     }
-    //check if there is username and password in localStorage
   }
 }

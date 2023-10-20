@@ -38,9 +38,19 @@ router.post('/signup', async (req, res, next) => {
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
     console.log("in login")
     try {
-        // console.log(req.user)
         this.isAuthenticated = true;
         res.send.json({ ...req.user })
+    } catch (err) {
+        res.json(err)
+    }
+})
+
+router.get('/logout', (req, res, next) => {
+    console.log("in logout")
+    try {
+        req.session.destroy();
+        this.isAuthenticated = false;
+        console.log('session destroyed!')
     } catch (err) {
         res.json(err)
     }

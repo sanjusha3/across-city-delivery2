@@ -24,6 +24,16 @@ export class AuthService {
       })
       .pipe(catchError(this.handleError));
   }
+  createUserA(username: string, email: string, password: string) {
+    console.log('in');
+    return this.http
+      .post('http://localhost:3000/admin/user', {
+        username,
+        email,
+        password,
+      })
+      .pipe(catchError(this.handleError));
+  }
   loginUser(username: string, password: string) {
     console.log('in');
     return this.http
@@ -35,10 +45,12 @@ export class AuthService {
   }
 
   logoutUser() {
-    this.http.get('http://localhost:3000/logout');
-    this.user.next(null);
-    this.router.navigate(['/login']);
-    console.log("you're logged out");
+    this.http.get('http://localhost:3000/logout').subscribe((res) => {
+      console.log(res);
+    });
+    // this.user.next(null);
+    // this.router.navigate(['/login']);
+    // console.log("you're logged out");
     this.isAuthenticated = false;
     this.isAdmin = false;
     localStorage.clear();

@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css'],
+  selector: 'app-newuser',
+  templateUrl: './newuser.component.html',
+  styleUrls: ['./newuser.component.css'],
 })
-export class SignupComponent implements OnInit {
-  signupForm: FormGroup;
+export class NewuserComponent implements OnInit {
+  userForm: FormGroup;
   res: Subscription;
 
   ngOnInit() {
-    this.signupForm = new FormGroup({
+    this.userForm = new FormGroup({
       username: new FormControl(null, Validators.required),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [
@@ -23,27 +24,25 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService, private router: Router) {}
   errorVal: string;
 
   onSubmit() {
-    console.log(this.signupForm);
-    const res = this.authService.createUser(
-      this.signupForm.value.username,
-      this.signupForm.value.email,
-      this.signupForm.value.password
+    console.log(this.userForm);
+    const res = this.authService.createUserA(
+      this.userForm.value.username,
+      this.userForm.value.email,
+      this.userForm.value.password
     );
     res.subscribe({
       next: (res) => {
         console.log(res);
+        this.router.navigate(['/admin']);
       },
       error: (error) => {
         console.log(error.message);
         this.errorVal = error.message;
       },
     });
-  }
-  function onSubmit(token) {
-    document.getElementById("demo-form").submit();
   }
 }

@@ -1,1 +1,21 @@
-<h1>Welcome Admin!!</h1>
+<div class="outer align-items-center justify-content-center">
+  <div>
+    <table class="table table-light table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of usersArray">
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button routerLink="/admin/user" class="btn btn-lg btn-outline-secondary">
+      Add new user
+    </button>
+  </div>
+</div>

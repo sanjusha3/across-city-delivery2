@@ -35,7 +35,7 @@ router.post('/admin/user', async (req, res, next) => {
 );
 
 router.get('/admin/user', async (req, res, next) => {
-    User.find({}).then((users) => {
+    User.find({ "role": "USER" }).then((users) => {
         res.send(users)
     }).catch((e) => {
         res.status(500).send()
