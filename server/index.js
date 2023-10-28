@@ -1,4 +1,6 @@
-const express = require('express')
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request')
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
@@ -7,7 +9,14 @@ require('./config/passport')
 const User = require('./models/user')
 const port = process.argv[2] || 3000
 const app = express()
-app.use(cors())
+app.use(cors({
+    origin: true,
+    credentials: true,
+}))
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/project')
     .then(() => {
@@ -22,15 +31,13 @@ app.use(session({
     secret: 'somethingsecretgoeshere',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
-    maxAge: 60 * 60 * 24
+    cookie: { secure: false, maxAge: 60 * 60 * 24 * 1000, httpOnly: false },
 }))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.use(passport.initialize());
-
 app.use(passport.session());
 
 app.get('/', (req, res, next) => {
@@ -44,7 +51,8 @@ app.use('', require('./routes/userRoutes'));
 
 app.use((err, req, res, next) => {
     if (err) {
-        return res.status(400).json({ data: "null", error: err });
+        console.log(err)
+        return res.status(400).json({ data: null, error: err });
     }
 
     return res.status(500).json({ data: null, error: 'Internal Server Error' });

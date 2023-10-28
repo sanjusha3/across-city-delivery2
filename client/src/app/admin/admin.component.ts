@@ -13,23 +13,55 @@ export class AdminComponent implements OnInit {
   usersArray: any;
   ngOnInit() {
     this.getUsers();
-    console.log(this.usersArray);
   }
 
   // usersArray = this.getUsers();
 
   getUsers() {
     console.log('in get users');
-    const response = this.http.get('http://localhost:3000/admin/user');
-    response.subscribe({
-      next: (res) => {
+    this.http.get('http://localhost:3000/admin/user').subscribe(
+      // {
+      // next: (res) => {
+      // console.log(res);
+      // this.usersArray = res;
+      // console.log(this.usersArray);
+      // },
+      // error: (error) => {
+      // console.log(error.message);
+      // },
+      // }
+      (res) => {
         console.log(res);
         this.usersArray = res;
-        console.log(this.usersArray);
-      },
-      error: (error) => {
-        console.log(error.message);
-      },
-    });
+      }
+    );
   }
+
+  // onDelete(id) {
+  //   console.log(id);
+  //   console.log('in delete');
+  //   const response = this.http.delete(`http://localhost:3000/admin/user/${id}`);
+  //   response.subscribe({
+  //     next: (res) => {
+  //       console.log(res);
+  //     },
+  //     error: (error) => {
+  //       console.log(error.message);
+  //     },
+  //   });
+  // }
+
+  // onUpdate(id) {
+  //   console.log(id);
+  //   console.log('in update');
+  // const response = this.http.update(`http://localhost:3000/admin/user/${id}`);
+  // response.subscribe({
+  //   next: (res) => {
+  //     console.log(res);
+  //   },
+  //   error: (error) => {
+  //     console.log(error.message);
+  //   },
+  //   });
+  // }
 }

@@ -5,12 +5,24 @@
         <tr>
           <th>Name</th>
           <th>Email</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of usersArray">
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
+          <td>
+            <div>
+              <div>
+                {{ user._id }}
+              </div>
+              <app-delete-user [id]="user._id">
+                {{ user._id }}
+              </app-delete-user>
+              <app-update-user [username]="user.username"></app-update-user>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

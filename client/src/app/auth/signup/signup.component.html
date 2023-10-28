@@ -1,4 +1,14 @@
-<script src="https://www.google.com/recaptcha/api.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LcKzMEoAAAAANbuFEHx630FMCUwrseEguu7ixtP"></script>
+<!-- <recaptcha
+  [size]="'invisible'"
+  [hide]="false"
+  (captchaResponse)="onCaptchaResponse($event)"
+>
+</recaptcha> -->
+<div
+  class="g-recaptcha"
+  data-sitekey="6LcKzMEoAAAAANbuFEHx630FMCUwrseEguu7ixtP"
+></div>
 
 <div class="outer position-relative vstack">
   <div class="container-fluid">
@@ -97,18 +107,11 @@
               >
                 Please enter valid data!
               </span>
-              <button
-                class="g-recaptcha"
-                data-sitekey="6LcDc7YoAAAAAAXoEr5Hy46VANGO0HBOsaFWBWaW"
-                data-callback="onSubmit"
-                data-action="submit"
-                class="btn btn-lg btn-outline-secondary"
-                type="submit"
-              >
+              <button class="btn btn-lg btn-outline-secondary" type="submit">
                 Signup
               </button>
               <span class="help-block">
-                {{ errorVal }}
+                <!-- {{ errorVal }} -->
               </span>
             </form>
           </div>

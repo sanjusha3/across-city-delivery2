@@ -1,0 +1,83 @@
+<!-- <div
+  class="modal fade"
+  id="exampleModalToggle"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  aria-hidden="true"
+  aria-labelledby="exampleModalToggleLabel"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel">Confirmation</h5>
+      </div>
+      <div class="modal-body">Are you sure you want to update these?</div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          data-bs-dismiss="modal"
+          type="submit"
+          (click)="onSubmit()"
+        >
+          Confirm
+        </button>
+
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          data-bs-toggle="modal"
+          href="#exampleModalToggle"
+          role="button"
+        >
+          Delete User
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- Button trigger modal -->
+<button
+  type="button"
+  class="btn btn-sm btn-outline-secondary"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+>
+  Delete User
+</button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">Are you sure you want to delete this user?</div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          data-bs-dismiss="modal"
+          type="submit"
+          (click)="onSubmit()"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

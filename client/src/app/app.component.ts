@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
+// import { NgForm } from '@angular/forms';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 const localUsername = localStorage.getItem('username');
 
 @Component({
@@ -8,7 +10,10 @@ const localUsername = localStorage.getItem('username');
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    private recaptchaV3Service: ReCaptchaV3Service
+  ) {}
   ngOnInit() {
     console.log(localUsername);
 
@@ -21,3 +26,18 @@ export class AppComponent implements OnInit {
     }
   }
 }
+// public send(form: NgForm): void {
+//   if (form.invalid) {
+//     for (const control of Object.keys(form.controls)) {
+//       form.controls[control].markAsTouched();
+//     }
+//     return;
+//   }
+
+// this.recaptchaV3Service
+//   .execute('importantAction')
+//   .subscribe((token: string) => {
+//     console.debug(`Token [${token}] generated`);
+//   });
+//   }
+// }

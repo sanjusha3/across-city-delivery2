@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-// import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,25 +12,15 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   res: Subscription;
+  // user: object;
 
-  constructor(
-    public authService: AuthService,
-    private router: Router
-  ) // private activatedRoute: ActivatedRoute
-  {}
+  constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.loginForm = new FormGroup({
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
     });
-    // this.activatedRoute.queryParamMap.subscribe((queries) => {
-    //   const logout = Boolean(queries.get('logout'));
-    //   if (logout) {
-    //     this.authService.logoutUser();
-    //     alert('You are now logged out!');
-    //   }
-    // });
   }
 
   errorVal: String;
@@ -44,6 +33,11 @@ export class LoginComponent implements OnInit {
     res.subscribe({
       next: (res) => {
         console.log(res);
+        const user = this.authService.getuserid().subscribe((response) => {
+          console.log(response);
+        });
+        console.log(user);
+        // console.log(user['username']);
         if (this.loginForm.value.username === 'Admin') {
           this.router.navigate(['/admin']);
           this.authService.isAdmin = true;
@@ -51,6 +45,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/user']);
           this.authService.isAuthenticated = true;
         }
+
         localStorage.setItem('username', this.loginForm.value.username);
       },
       error: (error) => {

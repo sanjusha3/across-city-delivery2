@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, throwError, BehaviorSubject } from 'rxjs';
 import { User } from '../auth/user.model';
 
@@ -10,6 +10,7 @@ import { User } from '../auth/user.model';
 export class AuthService {
   isAuthenticated: Boolean = false;
   isAdmin: Boolean = false;
+  userData: Object;
 
   user = new BehaviorSubject<User>(null);
 
@@ -36,12 +37,11 @@ export class AuthService {
   }
   loginUser(username: string, password: string) {
     console.log('in');
-    return this.http
-      .post('http://localhost:3000/login', {
-        username,
-        password,
-      })
-      .pipe(catchError(this.handleError));
+    return this.http.post('http://localhost:3000/login', {
+      username,
+      password,
+    });
+    // .pipe(catchError(this.handleError));
   }
 
   logoutUser() {
@@ -60,6 +60,11 @@ export class AuthService {
   private handleError(errorRes) {
     console.log('error', errorRes.error.error);
     return throwError(() => new Error(errorRes.error.error));
+  }
+
+  getuserid() {
+    console.log('in');
+    return this.http.get('http://localhost:3000/usersession');
   }
 
   IsAuthenticated() {

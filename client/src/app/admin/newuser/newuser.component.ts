@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { CustomvalidationService } from '../../auth/customvalidation.service';
 
 @Component({
   selector: 'app-newuser',
@@ -20,11 +21,16 @@ export class NewuserComponent implements OnInit {
       password: new FormControl(null, [
         Validators.required,
         Validators.minLength(8),
+        this.customValidator.patternValidator(),
       ]),
     });
   }
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    public authService: AuthService,
+    private customValidator: CustomvalidationService,
+    private router: Router
+  ) {}
   errorVal: string;
 
   onSubmit() {

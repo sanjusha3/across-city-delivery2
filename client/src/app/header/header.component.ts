@@ -10,6 +10,11 @@ export class HeaderComponent {
   constructor(public authService: AuthService) {}
 
   Logout() {
+    console.log(
+      this.authService.isAuthenticated || this.authService.isAdmin,
+      this.authService.isAuthenticated,
+      this.authService.isAdmin
+    );
     if (this.authService.isAuthenticated || this.authService.isAdmin) {
       this.authService.logoutUser();
       alert('You are now logged out!');

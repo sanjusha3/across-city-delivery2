@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-// import { AuthService } from '../auth.service';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 @Component({
-  selector: 'app-update',
-  templateUrl: './update.component.html',
-  styleUrls: ['./update.component.css'],
+  selector: 'app-update-user',
+  templateUrl: './update-user.component.html',
+  styleUrls: ['./update-user.component.css'],
 })
-export class UpdateComponent implements OnInit {
+export class UpdateUserComponent implements OnInit {
+  @Input()
+  username: String;
+  // username;
   updateForm: FormGroup;
   res: Subscription;
-  localUsername = localStorage.getItem('username');
-  username;
-  email;
+  // localUsername = localStorage.getItem('username');
+  // email;
   constructor(
     // public authService: AuthService,
     private http: HttpClient // ,private router: Router // private activatedRoute: ActivatedRoute
@@ -34,13 +34,10 @@ export class UpdateComponent implements OnInit {
     const username = this.updateForm.value.username;
     const email = this.updateForm.value.email;
     console.log('submit', username, email);
-    const res = this.http.patch(
-      `http://localhost:3000/user/${this.localUsername}`,
-      {
-        username,
-        email,
-      }
-    );
+    const res = this.http.patch(`http://localhost:3000/user/${this.username}`, {
+      username,
+      email,
+    });
     res.subscribe({
       next: (res) => {
         console.log(res);
