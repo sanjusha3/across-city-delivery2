@@ -26,26 +26,167 @@
                 <div class="row pt-1">
                   <div class="col-6 mb-3">
                     <h6>Name</h6>
-                    <!-- <p class="text-muted">{{ user.username }}</p> -->
+                    <p *ngIf="isloading" class="text-muted">"loading user"</p>
+                    <p *ngIf="!isloading" class="text-muted">
+                      {{ user.username }}
+                    </p>
                   </div>
 
                   <div class="col-fill mb-3">
                     <h6>Email</h6>
-                    <!-- <p class="text-muted">{{ user.email }}</p> -->
+                    <p *ngIf="isloading" class="text-muted">"loading user"</p>
+                    <p *ngIf="!isloading" class="text-muted">
+                      {{ user.email }}
+                    </p>
                     <!-- <div classs="d-grid gap-2 d-md-flex justify-content-md-end">
                       <button class="btn btn-sm btn-outline-secondary">
                         Update Email
                       </button>
                     </div> -->
                   </div>
-                  <div classs="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <!-- <button
                       routerLink="/user/update"
                       class="btn btn-sm btn-outline-secondary"
                     >
                       Update Details
                     </button> -->
-                    <app-update></app-update>
+                    <div
+                      class="modal fade"
+                      id="exampleModalToggle"
+                      aria-hidden="true"
+                      aria-labelledby="exampleModalToggleLabel"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              id="exampleModalToggleLabel"
+                            >
+                              Details:
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <form
+                              [formGroup]="update2Form"
+                              (ngSubmit)="onUpdate()"
+                            >
+                              <div class="mb-3">
+                                <label class="col-form-label"
+                                  ><b>Name:</b></label
+                                >
+                                <input
+                                  id="username"
+                                  formControlName="username"
+                                  type="text"
+                                  class="form-control"
+                                />
+                              </div>
+                              <span
+                                *ngIf="
+                                  !update2Form.get('username').valid &&
+                                  update2Form.get('username').touched
+                                "
+                                class="help-block"
+                              >
+                                Please enter a valid username!</span
+                              >
+                              <div class="mb-3">
+                                <label class="col-form-label"
+                                  ><b>Email:</b></label
+                                >
+                                <input
+                                  id="email"
+                                  formControlName="email"
+                                  type="text"
+                                  class="form-control"
+                                />
+                              </div>
+                              <span
+                                *ngIf="
+                                  update2Form.get('email').touched &&
+                                  update2Form.get('email').invalid
+                                "
+                              >
+                                <span
+                                  *ngIf="
+              update2Form.get('email').errors?.['required']
+            "
+                                  class="help-block"
+                                >
+                                  Please enter an email!</span
+                                >
+                                <span
+                                  *ngIf="update2Form.get('email').errors?.['email']"
+                                  class="help-block"
+                                  >Email is invalid!</span
+                                >
+                              </span>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              class="btn btn-sm btn-outline-secondary"
+                              data-bs-target="#exampleModalToggle2"
+                              data-bs-toggle="modal"
+                              data-bs-dismiss="modal"
+                            >
+                              Update
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="modal fade"
+                      id="exampleModalToggle2"
+                      data-bs-backdrop="static"
+                      data-bs-keyboard="false"
+                      aria-hidden="true"
+                      aria-labelledby="exampleModalToggleLabel2"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              id="exampleModalToggleLabel2"
+                            >
+                              Confirmation
+                            </h5>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to update these?
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              class="btn btn-sm btn-outline-secondary"
+                              data-bs-dismiss="modal"
+                              type="submit"
+                              (click)="onUpdate()"
+                            >
+                              Confirm
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <a
+                      class="btn btn-sm btn-outline-secondary"
+                      data-bs-toggle="modal"
+                      href="#exampleModalToggle"
+                      role="button"
+                      >Update Details</a
+                    >
                   </div>
                 </div>
               </div>

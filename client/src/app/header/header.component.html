@@ -16,18 +16,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item active">
+        <li *ngIf="localUsername" class="nav-item">
+          <a (click)="Logout()" routerLink="/login" class="nav-link">Logout</a>
+        </li>
+
+        <li *ngIf="!localUsername" class="nav-item">
           <a routerLink="/signup" class="nav-link" href="#">Register</a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="!localUsername" class="nav-item">
           <a routerLink="/login" class="nav-link" href="#">Login</a>
         </li>
+        <!-- <li>{{ localUsername }}</li> -->
         <!-- <li class="nav-item">
           <a routerLink="/admin" class="nav-link" href="#">Users</a>
         </li> -->
-        <li class="nav-item">
-          <a (click)="Logout()" routerLink="/login" class="nav-link">Logout</a>
-        </li>
       </ul>
     </div>
   </div>

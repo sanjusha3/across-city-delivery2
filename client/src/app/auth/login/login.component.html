@@ -1,7 +1,7 @@
 <div class="outer position-relative vstack">
   <div class="container-fluid">
     <div class="row">
-      <div class="offset-md-6 col-lg-5 offset-lg-4 offset-md-3">
+      <div class="col-md-4 col-lg-4 offset-lg-4 offset-md-4">
         <div
           class="panel d-flex flex-column align-items-center justify-content-center border bg-white"
         >
@@ -48,15 +48,10 @@
                   Please enter a password!</span
                 >
               </div>
-              <span *ngIf="!loginForm.valid && loginForm.touched">
-                Please enter valid data!
-              </span>
+
               <button class="btn btn-lg btn-outline-secondary" type="submit">
                 Login
               </button>
-              <span class="help-block">
-                {{ errorVal }}
-              </span>
             </form>
           </div>
         </div>

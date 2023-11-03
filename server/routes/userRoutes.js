@@ -2,23 +2,24 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const authorize = require('../middleware/authorize')
 
-router.get('/user/:username', async (req, res, next) => {
-    const username = req.params.username
+router.get('/user/:id', authorize('USER'), async (req, res, next) => {
+    const _id = req.params.id
     // const theUser = await User.findOne({
     //     username
     // });
-    User.findOne({ username }).then((user) => {
+    User.findById({ _id }).then((user) => {
         if (!user) {
             return res.status(404).send()
         }
-        res.send(user)
+        res.send({ id: user._id, username: user.username, email: user.email })
     }).catch((e) => {
         res.status(500).send(e)
     })
 });
 
-router.patch('/user/:username', async (req, res, next) => {
+router.patch('/user/:id', authorize('USER'), async (req, res, next) => {
     console.log("in")
     const updates = Object.keys(req.body)
     console.log(updates)
@@ -30,13 +31,25 @@ router.patch('/user/:username', async (req, res, next) => {
     }
 
     try {
-        const user = await User.findOneAndUpdate({ username: req.params.username }, req.body, { new: true, runValidators: true })
+
+
+        if (req.body.username || req.body.email) {
+            const usernameExists = await User.findOne({ username: req.body.username });
+            const emailExists = await User.findOne({ email: req.body.email });
+            if (usernameExists && emailExists) {
+                // console.log('usernameExists')
+                return res.status(400).json({ error: 'Please enter at least one unique value!' });
+
+            }
+        }
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
         if (!user) {
             return res.status(404).send()
         }
-        res.send(user)
-    } catch (e) {
-        res.status(400).send(e)
+
+        res.send({ id: user._id, username: user.username, email: user.email })
+    } catch (error) {
+        res.json(error)
     }
 });
 

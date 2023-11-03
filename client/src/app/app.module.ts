@@ -12,11 +12,14 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { HeaderComponent } from './header/header.component';
 import { UserComponent } from './user/user.component';
 import { AdminComponent } from './admin/admin.component';
-import { NewuserComponent } from './admin/newuser/newuser.component';
-import { UpdateComponent } from './user/update/update.component';
-import { UpdateUserComponent } from './admin/update-user/update-user.component';
-import { DeleteUserComponent } from './admin/delete-user/delete-user.component';
 import { AuthInterceptorService } from './auth-interceptor.service';
+import { CommonModule } from '@angular/common';
+import {
+  ToastrModule,
+  ToastNoAnimation,
+  ToastNoAnimationModule,
+} from 'ngx-toastr';
+import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -26,18 +29,22 @@ import { AuthInterceptorService } from './auth-interceptor.service';
     HeaderComponent,
     UserComponent,
     AdminComponent,
-    NewuserComponent,
-    UpdateComponent,
-    UpdateUserComponent,
-    DeleteUserComponent,
+    UnauthorizedComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     RecaptchaV3Module,
     FormsModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
+    ToastNoAnimationModule.forRoot(),
   ],
   providers: [
     {
@@ -51,5 +58,6 @@ import { AuthInterceptorService } from './auth-interceptor.service';
     },
   ],
   bootstrap: [AppComponent],
+  // declarations:[AppComponent],
 })
 export class AppModule {}

@@ -8,9 +8,19 @@
   width: 100%;
   max-width: 330px;
   padding: 15px;
-  margin-top: 35px;
-  margin: auto;
+  /* margin-top: 35px; */
+  /* margin: auto; */
 }
+/* .alert-dismissible {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin-bottom: 35px;
+  margin: auto;
+} */
+/* .form-group input {
+  margin: 0.6rem 0;
+} */
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }

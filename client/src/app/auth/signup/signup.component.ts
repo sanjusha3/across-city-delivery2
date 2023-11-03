@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Subscription } from 'rxjs';
 import { CustomvalidationService } from '../customvalidation.service';
-
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -14,9 +14,11 @@ import { HttpClient } from '@angular/common/http';
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   res: Subscription;
+  data;
   // res2;
 
   ngOnInit() {
+    this.authService.autoLogin();
     this.signupForm = new FormGroup({
       username: new FormControl(null, Validators.required),
       email: new FormControl(null, [Validators.required, Validators.email]),
@@ -31,6 +33,7 @@ export class SignupComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private http: HttpClient,
+    private router: Router,
     private customValidator: CustomvalidationService
   ) {}
   errorVal: string;
@@ -45,55 +48,75 @@ export class SignupComponent implements OnInit {
     res.subscribe({
       next: (res) => {
         console.log(res);
+        if (res != '') {
+          this.router.navigate(['/login']);
+        }
       },
       error: (error) => {
         console.log(error.message);
         this.errorVal = error.message;
       },
     });
+    // const data = null;
     const that = this;
-    grecaptcha
-      .execute('6LcKzMEoAAAAANbuFEHx630FMCUwrseEguu7ixtP', { action: 'signup' })
-      .then(function (token) {
-        console.log('something', that.signupForm);
-        const username = that.signupForm.value.username;
-        console.log(username);
-        const email = that.signupForm.value.email;
-        const password = that.signupForm.value.password;
-        const captcha = token;
-        console.log(captcha);
-
-        const data = {
-          username,
-          email,
-          password,
-          captcha,
-        };
-
-        const sub = that.http.post('http://localhost:3000/verify', data);
-        //     then((res) => {
-        //       console.log(res.data);
-        //       const response = res.data;
-        //       alert('msg:' + response.msg + ',score:' + response.score);
-        //     })
-        //     .catch((error) => {
-        //       console.log(error.message);
-        //     });
-        // });
-
-        sub.subscribe({
-          next: (res) => {
-            console.log(res);
-            const response = res;
-            // alert(response);
-            // alert('msg:' + response.msg + ',score:' + response.score);
-            error: (error) => {
-              console.log(error);
-              // this.errorVal = error.message;
-            };
-          },
+    let extData;
+    grecaptcha.ready(function () {
+      // grecaptcha
+      //   .execute('reCAPTCHA_site_key', { action: 'submit' })
+      //   .then(function (token) {
+      //     // Add your logic to submit to your backend server here.
+      //   });
+      grecaptcha
+        .execute('6LdRv94oAAAAAN9XW6y9n8H0p_6QLNPQb9GXwFql', {
+          action: 'signup',
+        })
+        .then(function (token) {
+          console.log('something', that.signupForm);
+          const username = that.signupForm.value.username;
+          console.log(username);
+          const email = that.signupForm.value.email;
+          const password = that.signupForm.value.password;
+          const captcha = token;
+          console.log(captcha);
+          console.log('this is captcha');
+          // console.log(username, email, password, captcha);
+          const data = {
+            username,
+            email,
+            password,
+            captcha,
+          };
+          extData = data;
+          that.authService.verify(extData).subscribe((response) => {
+            console.log(response['msg']);
+          });
         });
-      });
+      console.log('something');
+      console.log(extData);
+      // const sub = that.http.post('http://localhost:3000/verify', extData)
+      //     .then((res) => {
+      //       console.log(res['data']);
+      //       const response = res['data'];
+      //       alert('msg:' + response.msg + ',score:' + response.score);
+      //     })
+      //     .catch((error) => {
+      //       console.log(error.message);
+      //     });
+      // });
+
+      // sub.subscribe({
+      //   next: (res) => {
+      //     console.log(res);
+      //     const response = res;
+      //     // alert(response);
+      //     // alert('msg:' + response.msg + ',score:' + response.score);
+      //     error: (error) => {
+      //       console.log(error);
+      //       // this.errorVal = error.message;
+      //     };
+      //   },
+      // });
+    });
   }
 }
 // sendData(username, email, password, captcha) {

@@ -7,3 +7,6 @@
 /* max-width: 100%; */
 /* min-height: 100vh; */
 /* } */
+.toast-top-right {
+  margin-top: 50px;
+}

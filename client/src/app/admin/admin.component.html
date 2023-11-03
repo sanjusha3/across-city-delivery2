@@ -14,19 +14,368 @@
           <td>{{ user.email }}</td>
           <td>
             <div>
-              <div>
-                {{ user._id }}
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-secondary btn-dl"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+                (click)="setSelectedId(user._id)"
+              >
+                Delete User
+              </button>
+              <div
+                class="modal fade"
+                id="staticBackdrop"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">
+                        Confirmation
+                      </h5>
+
+                      <!-- <ng-content></ng-content> -->
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to delete this user?
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        data-bs-dismiss="modal"
+                        type="submit"
+                        (click)="onDelete()"
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <app-delete-user [id]="user._id">
-                {{ user._id }}
-              </app-delete-user>
-              <app-update-user [username]="user.username"></app-update-user>
+
+              <div
+                class="modal fade"
+                id="exampleModalToggle"
+                aria-hidden="true"
+                aria-labelledby="exampleModalToggleLabel"
+                tabindex="-1"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalToggleLabel">
+                        Details:
+                      </h5>
+
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                          <label class="col-form-label"><b>Name:</b></label>
+                          <input
+                            id="username"
+                            formControlName="username"
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                        <span
+                          *ngIf="
+                            !updateForm.get('username').valid &&
+                            updateForm.get('username').touched
+                          "
+                          class="help-block"
+                        >
+                          Please enter a valid username!</span
+                        >
+                        <div class="mb-3">
+                          <label class="col-form-label"><b>Email:</b></label>
+                          <input
+                            id="email"
+                            formControlName="email"
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                        <span
+                          *ngIf="
+                            updateForm.get('email').touched &&
+                            updateForm.get('email').invalid
+                          "
+                        >
+                          <span
+                            *ngIf="updateForm.get('email').errors?.['required']"
+                            class="help-block"
+                          >
+                            Please enter an email!</span
+                          >
+                          <span
+                            *ngIf="updateForm.get('email').errors?.['email']"
+                            class="help-block"
+                            >Email is invalid!</span
+                          >
+                        </span>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        data-bs-target="#exampleModalToggle2"
+                        data-bs-toggle="modal"
+                        data-bs-dismiss="modal"
+                        [disabled]="!updateForm.valid"
+                      >
+                        Update
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="modal fade"
+                id="exampleModalToggle2"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                aria-hidden="true"
+                aria-labelledby="exampleModalToggleLabel2"
+                tabindex="-1"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalToggleLabel2">
+                        Confirmation
+                      </h5>
+                      <!-- <div flex> -->
+                      <!-- <button
+                          type="button"
+                          class="btn btn-sm me-3 btn-outline-secondary"
+                          data-bs-target="#exampleModalToggle"
+                          data-bs-toggle="modal"
+                          data-bs-dismiss="modal"
+                        >
+                          Prev
+                        </button> -->
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                      <!-- </div> -->
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to update these?
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        class="btn btn-sm btn-outline-secondary"
+                        data-bs-dismiss="modal"
+                        data-bs-toggle="modal"
+                        type="submit"
+                        (click)="onUpdate()"
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                class="btn btn-sm btn-outline-secondary"
+                data-bs-toggle="modal"
+                href="#exampleModalToggle"
+                role="button"
+                (click)="setSelectedId(user._id)"
+              >
+                Update Details
+              </button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <button routerLink="/admin/user" class="btn btn-lg btn-outline-secondary">
+    <!-- <div
+      class="modal fade"
+      id="#duplicate"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      aria-hidden="true"
+      aria-labelledby="duplicate"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="duplicate">Confirmation</h5>
+            Copy
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">{{ errorVal }}</div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-sm btn-outline-secondary"
+              data-bs-dismiss="modal"
+              type="submit"
+            >
+              Enter New Values
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div
+      class="modal fade"
+      id="addUserModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      aria-hidden="true"
+      aria-labelledby="exampleModalToggleLabel"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">User Details:</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="userForm" (ngSubmit)="onCreateUser()">
+              <!-- <div
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+                *ngIf="errorVal2"
+              >
+                {{ errorVal2 }}
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                ></button>
+              </div> -->
+              <div class="mb-3">
+                <label class="col-form-label"><b>Name:</b></label>
+                <input
+                  id="username"
+                  formControlName="username"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+              <span
+                *ngIf="
+                  !userForm.get('username').valid &&
+                  userForm.get('username').touched
+                "
+                class="help-block"
+              >
+                Please enter a valid username!</span
+              >
+              <div class="mb-3">
+                <label class="col-form-label"><b>Email:</b></label>
+                <input
+                  id="email"
+                  formControlName="email"
+                  type="email"
+                  class="form-control"
+                />
+              </div>
+              <span
+                *ngIf="
+                  userForm.get('email').touched && userForm.get('email').invalid
+                "
+              >
+                <span
+                  *ngIf="
+              userForm.get('email').errors?.['required']
+            "
+                  class="help-block"
+                >
+                  Please enter an email!</span
+                >
+                <span
+                  *ngIf="userForm.get('email').errors?.['email']"
+                  class="help-block"
+                  >Email is invalid!</span
+                >
+              </span>
+              <div class="mb-3">
+                <label class="col-form-label"><b>Password:</b></label>
+                <input
+                  id="password"
+                  formControlName="password"
+                  type="password"
+                  class="form-control"
+                />
+                <span
+                  *ngIf="userForm.get('password').errors?.['minlength']"
+                  class="help-block"
+                  >Password must be at least 8 characters!
+                </span>
+                <div
+                  *ngIf="
+                    !userForm.get('password').valid &&
+                    userForm.get('password').touched
+                  "
+                  class="help-block"
+                >
+                  Your password should contain a capital letter, a digit and a
+                  special character!
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              class="btn btn-sm btn-outline-secondary"
+              data-bs-toggle="modal"
+              data-bs-dismiss="modal"
+              type="submit"
+              (click)="onCreateUser()"
+              [disabled]="!userForm.valid"
+            >
+              Create User
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      data-bs-toggle="modal"
+      href="#addUserModal"
+      role="button"
+      class="btn btn-lg btn-outline-secondary"
+    >
       Add new user
     </button>
   </div>

@@ -1,5 +1,7 @@
 .outer {
   margin-top: 70px;
+  display: flex;
+  align-items: center;
 }
 /* .form-group {
   margin: 20px;

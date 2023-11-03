@@ -1,6 +1,19 @@
 .outer {
   margin: 40px;
 }
-.btn {
+.btn-dl {
   margin-right: 50px;
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+.form-floating:focus-within {
+  z-index: 2;
+}
+.form-group {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin-top: 35px;
+  margin: auto;
 }

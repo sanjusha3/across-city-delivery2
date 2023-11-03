@@ -1,4 +1,4 @@
-<script src="https://www.google.com/recaptcha/api.js?render=6LcKzMEoAAAAANbuFEHx630FMCUwrseEguu7ixtP"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LdRv94oAAAAAN9XW6y9n8H0p_6QLNPQb9GXwFql"></script>
 <!-- <recaptcha
   [size]="'invisible'"
   [hide]="false"
@@ -7,23 +7,24 @@
 </recaptcha> -->
 <div
   class="g-recaptcha"
-  data-sitekey="6LcKzMEoAAAAANbuFEHx630FMCUwrseEguu7ixtP"
+  data-sitekey="6LdRv94oAAAAAN9XW6y9n8H0p_6QLNPQb9GXwFql"
+  data-action="signup"
 ></div>
 
 <div class="outer position-relative vstack">
   <div class="container-fluid">
     <div class="row">
-      <div class="offset-md-6 col-lg-5 offset-lg-4 offset-md-3">
+      <div class="col-md-4 col-lg-4 offset-lg-4 offset-md-4">
         <div
-          class="panel d-flex flex-column align-items-center justify-content-center border bg-white"
+          class="d-flex flex-column align-items-center justify-content-center border bg-white"
         >
           <div class="panel-heading">
             <h2 class="p-3 font-weight-bold">Please Register</h2>
           </div>
-          <div class="panel-body p-3 vstack gap-3">
-            <form
-              [formGroup]="signupForm"
-              (ngSubmit)="onSubmit()"
+
+          <!-- <div class="panel-body p-3 vstack gap-3"> -->
+          <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <div
               class="d-flex flex-column align-items-center justify-content-center"
             >
               <div
@@ -99,22 +100,28 @@
                   class="help-block"
                   >Password must be at least 8 characters!
                 </span>
+                <span
+                  *ngIf="
+                    !signupForm.get('password').valid &&
+                    signupForm.get('password').touched
+                  "
+                  class="help-block"
+                >
+                  Your password should contain a capital letter, a digit and a
+                  special character!
+                </span>
               </div>
 
-              <span
-                *ngIf="!signupForm.valid && signupForm.touched"
-                class="help-block"
+              <button
+                class="btn btn-lg btn-outline-secondary"
+                type="submit"
+                [disabled]="!signupForm.valid"
               >
-                Please enter valid data!
-              </span>
-              <button class="btn btn-lg btn-outline-secondary" type="submit">
                 Signup
               </button>
-              <span class="help-block">
-                <!-- {{ errorVal }} -->
-              </span>
-            </form>
-          </div>
+            </div>
+          </form>
+          <!-- </div> -->
         </div>
       </div>
     </div>

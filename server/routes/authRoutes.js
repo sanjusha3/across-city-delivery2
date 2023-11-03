@@ -5,6 +5,8 @@ const axios = require('axios');
 const User = require('../models/user');
 const passport = require('passport');
 isAuthenticated: Boolean;
+const authorize = require('../middleware/authorize')
+
 
 router.post('/signup', async (req, res, next) => {
     try {
@@ -17,7 +19,7 @@ router.post('/signup', async (req, res, next) => {
 
         if (existingUser) {
             console.log("please login")
-            return res.status(400).json({ error: 'Your account already exists. Please login' });
+            return res.status(400).json({ error: 'Your account already exists.' });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -47,15 +49,16 @@ router.post('/verify', async (req, res, next) => {
         }
 
         const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
-        const secretKey = '6LcKzMEoAAAAAIjfY1meG6Gwg8wGDzn2G8HE1BtR'
+        const secretKey = '6LdRv94oAAAAALE7vn_vBRiD9rWPO6XHBif0VE5x'
 
 
-        const response = await axios.post(verifyUrl, {
-            secret: secretKey,
+        const response = await axios.post('https://www.google.com/recaptcha/api/siteverify', {
+            secret: '6LdRv94oAAAAALE7vn_vBRiD9rWPO6XHBif0VE5x',
             response: req.body.captcha
         });
         console.log(response)
         const body = response.data;
+        console.log("captcha captcha")
         console.log(body.success)
         if (!body.success || body.score < 0.4) {
             return res.json({ 'msg': 'You might be a robot, Sorry! You are banned!', 'score': body.score });
@@ -94,7 +97,7 @@ router.get('/logout', (req, res, next) => {
     }
 })
 
-router.get('/usersession', (req, res, next) => {
+router.get('/userid', (req, res, next) => {
     if (req.isAuthenticated()) {
         return next()
     }
@@ -102,24 +105,49 @@ router.get('/usersession', (req, res, next) => {
     console.log("in user session")
     try {
         console.log(req.session.passport.user)
-        res.send(req.session.passport.user)
-        // this.isAuthenticated = false;
+        res.send({ userid: req.session.passport.user })
     } catch (err) {
         res.json(err)
     }
 })
 
-// router.get('/logout', (req, res, next) => {
-//     console.log("in logout")
-//     try {
-//         console.log(req.session)
-//         req.session.destroy();
-//         console.log(req.session)
-//         this.isAuthenticated = false;
-//         console.log('session destroyed!')
-//     } catch (err) {
-//         res.json(err)
-//     }
-// })
+router.get('/userrole/:id', (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next()
+    }
+}, async (req, res, next) => {
+    console.log("in get role")
+    try {
+        const id = req.session.passport.user
+        const existingUser = await User.findOne({
+            _id: id
+        });
+        console.log(existingUser.role)
+        // user = { ...existingUser }
+        // console.log(req.session.passport.user)
+        res.send({ role: existingUser.role })
+
+        // res.send(req.session.passport.user)
+    } catch (err) {
+        // console.log("this error")
+        res.json(err)
+
+    }
+
+
+    // console.log("in get role")
+    // try {
+    //     const existingUser = await User.findOne({
+    //         _id
+    //     });
+    //     if (!existingUser) {
+    //         return res.status(404).send()
+    //     }
+    //     res.send(existingUser)
+    //     console.log(existingUser)
+    // } catch (err) {
+    //     res.json(err)
+    // }
+})
 
 module.exports = router;
