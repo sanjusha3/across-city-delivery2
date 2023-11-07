@@ -1,16 +1,29 @@
-<script src="https://www.google.com/recaptcha/api.js?render=6LdRv94oAAAAAN9XW6y9n8H0p_6QLNPQb9GXwFql"></script>
+<!-- <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LcBUPwoAAAAAKaT5OADHTLyN78ERmJZQLlgiMIn"></script>
+
 <!-- <recaptcha
   [size]="'invisible'"
   [hide]="false"
   (captchaResponse)="onCaptchaResponse($event)"
 >
 </recaptcha> -->
-<div
-  class="g-recaptcha"
-  data-sitekey="6LdRv94oAAAAAN9XW6y9n8H0p_6QLNPQb9GXwFql"
-  data-action="signup"
-></div>
 
+<!-- <html>
+  <head>
+    <title>reCAPTCHA demo: Simple page</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  </head>
+  <body>
+    <form action="?" method="POST">
+      <div
+        class="g-recaptcha"
+        data-sitekey="6LeA1PsoAAAAAPi2N8_Zl9sj8miMZoUXVDgL82SO"
+      ></div>
+      <br />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html> -->
 <div class="outer position-relative vstack">
   <div class="container-fluid">
     <div class="row">
@@ -21,13 +34,18 @@
           <div class="panel-heading">
             <h2 class="p-3 font-weight-bold">Please Register</h2>
           </div>
+          <!-- <div
+            class="g-recaptcha"
+            data-sitekey="6LcBUPwoAAAAAKaT5OADHTLyN78ERmJZQLlgiMIn"
+            data-action="signup"
+          ></div> -->
 
           <!-- <div class="panel-body p-3 vstack gap-3"> -->
           <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <div
               class="d-flex flex-column align-items-center justify-content-center"
             >
-              <div
+              <!-- <div
                 class="alert alert-danger alert-dismissible fade show"
                 role="alert"
                 *ngIf="errorVal"
@@ -39,7 +57,7 @@
                   data-bs-dismiss="alert"
                   aria-label="Close"
                 ></button>
-              </div>
+              </div> -->
               <div class="form-floating form-group">
                 <input
                   type="text"
@@ -113,6 +131,10 @@
               </div>
 
               <button
+                class="g-recaptcha"
+                data-sitekey="6LcDc7YoAAAAAAXoEr5Hy46VANGO0HBOsaFWBWaW"
+                data-callback="onSubmit"
+                data-action="submit"
                 class="btn btn-lg btn-outline-secondary"
                 type="submit"
                 [disabled]="!signupForm.valid"
@@ -121,9 +143,18 @@
               </button>
             </div>
           </form>
+
           <!-- </div> -->
         </div>
       </div>
     </div>
   </div>
 </div>
+<!-- <button
+  class="g-recaptcha"
+  data-sitekey="6LcDc7YoAAAAAAXoEr5Hy46VANGO0HBOsaFWBWaW"
+  data-callback="onSubmit"
+  data-action="submit"
+  class="btn btn-lg btn-outline-secondary"
+  type="submit"
+></button> -->

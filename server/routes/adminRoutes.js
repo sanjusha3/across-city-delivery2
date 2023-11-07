@@ -16,11 +16,10 @@ router.post('/admin/user', authorize('ADMIN'), async (req, res, next) => {
         console.log(existingUser)
 
         if (existingUser) {
-            console.log("This is an existing user")
-            return res.status(400).json({ error: 'This is an existing user' });
+            return res.status(400).send('This is an existing user');
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        // console.log(hashedPassword)
+
 
         const newUser = new User({
             username, email, password: hashedPassword,
@@ -28,38 +27,44 @@ router.post('/admin/user', authorize('ADMIN'), async (req, res, next) => {
 
         await newUser.save();
 
-        res.status(201).json({ data: "User created!" });
+        res.status(201).send({ 'message': 'User created!' });
     }
     catch (error) {
-        res.json(error);
+        res.send(error);
     }
 }
 );
-// , passport.authenticate('local', { session: false }), authorize(['ADMIN'])
 router.get('/admin/user',
     authorize('ADMIN')
     , async (req, res, next) => {
-        User.find({ "role": "USER" }).select('_id username email').then((users) => {
-            // res.json({ message: 'Admin access granted' });
-            // console.log(req.user.role.role)
-            // console.log(req.user.role)
-            res.send(users)
-        }).catch((e) => {
-            res.status(500).send()
-        })
+        try {
+            User.find({ "role": "USER" }).select('_id username email').then((users) => {
+
+                if (!users) {
+                    return res.status(404).send('Users not found!')
+                }
+                res.status(200).send(users)
+            })
+        }
+        catch (error) {
+            res.send(error);
+        }
+
     });
 
 router.get('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
-    const _id = req.params.id
+    try {
+        const _id = req.params.id
 
-    User.findById(_id).then((user) => {
-        if (!user) {
-            return res.status(404).send()
-        }
-        res.send({ id: user._id, username: user.username, email: user.email })
-    }).catch((e) => {
-        res.status(500).send()
-    })
+        User.findById(_id).then((user) => {
+            if (!user) {
+                return res.status(404).send('User not found!')
+            }
+            res.status(200).send({ id: user._id, username: user.username, email: user.email })
+        })
+    } catch (error) {
+        res.send(error)
+    }
 });
 
 router.patch('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
@@ -68,7 +73,7 @@ router.patch('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
     if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' });
+        return res.status(400).send('Invalid updates!');
     }
 
     try {
@@ -78,7 +83,7 @@ router.patch('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
         console.log(req.body.username)
         console.log(req.body.email)
         if (!user) {
-            return res.status(404).send();
+            return res.status(404).send('User not found!');
         }
 
         if (req.body.username || req.body.email) {
@@ -86,7 +91,7 @@ router.patch('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
             const emailExists = await User.findOne({ email: req.body.email });
             if (usernameExists && emailExists) {
                 // console.log('usernameExists')
-                return res.status(400).json({ error: 'Please enter at least one unique value!' });
+                return res.status(400).json('Please enter at least one unique value!');
 
             }
         }
@@ -95,45 +100,24 @@ router.patch('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
 
         const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
 
-        res.send({ id: updatedUser._id, username: updatedUser.username, email: updatedUser.email });
+        res.status(200).send({ id: updatedUser._id, username: updatedUser.username, email: updatedUser.email });
     } catch (error) {
-        res.json(error);
+        res.send(error);
     }
 });
 
-// router.patch('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
-//     const updates = Object.keys(req.body)
-//     const allowedUpdates = ['username', 'email', 'password']
-//     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-
-//     if (!isValidOperation) {
-//         return res.status(400).send({ error: 'Invalid updates!' })
-//     }
-
-//     try {
-
-//         const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
-//         if (!user) {
-//             return res.status(404).send()
-//         }
-//         res.send({ id: user._id, username: user.username, email: user.email })
-
-//     } catch (error) {
-//         res.status(400).send(error)
-//     }
-// });
 
 router.delete('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id)
 
         if (!user) {
-            return res.status(404).send()
+            return res.status(404).send('User not found!')
         }
 
-        res.send({ id: user._id, username: user.username, email: user.email })
-    } catch (e) {
-        res.status(500).send()
+        res.status(200).send({ id: user._id, username: user.username, email: user.email })
+    } catch (error) {
+        res.send(error)
     }
 
 });

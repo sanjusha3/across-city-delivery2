@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-// const localemail = localStorage.getItem('username');
 import { Modal } from 'bootstrap';
 
 @Component({
@@ -14,9 +12,9 @@ import { Modal } from 'bootstrap';
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit {
-  // localUsername = localStorage.getItem('username');
   update2Form: FormGroup;
   res: Subscription;
+  isEdit: Boolean = false;
   user;
   role;
   userid;
@@ -32,8 +30,8 @@ export class UserComponent implements OnInit {
     this.authService.autoLogin();
     this.getUser();
     this.update2Form = new FormGroup({
-      username: new FormControl(null, Validators.required),
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      username: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
     });
   }
 
@@ -44,18 +42,9 @@ export class UserComponent implements OnInit {
       console.log(response['userid']);
       this.userid = response['userid'];
       this.authService.getrole(this.userid).subscribe((response) => {
-        // return response;
         console.log(response);
         this.role = response;
         localStorage.setItem('role', this.role.role);
-        // if (this.role === 'ADMIN') {
-        //   console.log('youre the admin');
-        //   this.authService.isAdmin = true;
-        //   this.router.navigate(['/admin']);
-        // } else if (this.role === 'USER') {
-        //   this.authService.isAuthenticated = true;
-        //   this.router.navigate(['/user']);
-        // }
       });
     });
     this.isloading = true;
@@ -80,6 +69,19 @@ export class UserComponent implements OnInit {
       });
     });
   }
+
+  handleUpdate() {
+    this.isEdit = true;
+    this.update2Form.setValue({
+      username: this.username,
+      email: this.email,
+    });
+  }
+  // prepopulate() {
+  //   console.log(this.email);
+  //   this.update2Form.value.username.setValue(this.username);
+  //   this.update2Form.value.email.setValue(this.email);
+  // }
   onUpdate() {
     console.log('in');
     const username = this.update2Form.value.username;
@@ -101,14 +103,14 @@ export class UserComponent implements OnInit {
           this.toastr.success('Your details are updated!');
         },
         error: (error) => {
-          console.log(error.error.error);
-          this.errorVal = error.error.error;
-          this.toastr.error(error.error.error);
-          const element = document.getElementById(
-            'exampleModalToggle'
-          ) as HTMLElement;
-          const myModal = new Modal(element);
-          myModal.show();
+          console.log(error.error);
+          // this.errorVal = error.error;
+          this.toastr.error(error.error);
+          // const element = document.getElementById(
+          //   'exampleModalToggle'
+          // ) as HTMLElement;
+          // const myModal = new Modal(element);
+          // myModal.show();
         },
       });
     });

@@ -5,7 +5,6 @@ const axios = require('axios');
 const User = require('../models/user');
 const passport = require('passport');
 isAuthenticated: Boolean;
-const authorize = require('../middleware/authorize')
 
 
 router.post('/signup', async (req, res, next) => {
@@ -19,7 +18,7 @@ router.post('/signup', async (req, res, next) => {
 
         if (existingUser) {
             console.log("please login")
-            return res.status(400).json({ error: 'Your account already exists.' });
+            return res.status(400).send('This account already exists. Please Login!');
         }
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -30,10 +29,10 @@ router.post('/signup', async (req, res, next) => {
 
         await newUser.save();
 
-        res.status(201).json({ data: "User registered successfully" });
+        res.status(201).send({ 'message': 'User registered successfully' });
     }
     catch (error) {
-        res.json(error);
+        res.send(error);
     }
 }
 );
@@ -45,30 +44,27 @@ router.post('/verify', async (req, res, next) => {
     console.log("in verify");
     try {
         if (!req.body.captcha) {
-            return res.json({ 'msg': 'captcha token is undefined' });
+            return res.status(400).send('captcha token is undefined');
         }
 
-        const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
-        const secretKey = '6LdRv94oAAAAALE7vn_vBRiD9rWPO6XHBif0VE5x'
+        const secretKey = '6LcBUPwoAAAAALhdgkEezMaXkdI2lNrpRXabhCaI'
 
 
-        const response = await axios.post('https://www.google.com/recaptcha/api/siteverify', {
-            secret: '6LdRv94oAAAAALE7vn_vBRiD9rWPO6XHBif0VE5x',
-            response: req.body.captcha
-        });
+        const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`)
+
         console.log(response)
         const body = response.data;
         console.log("captcha captcha")
         console.log(body.success)
+        console.log(body.score)
         if (!body.success || body.score < 0.4) {
-            return res.json({ 'msg': 'You might be a robot, Sorry! You are banned!', 'score': body.score });
+            return res.status(400).send('You might be a robot, Sorry! You are banned!');
         }
 
-        return res.json({ 'msg': 'You have been verified, You may proceed!', 'score': body.score });
+        res.status(200).send({ 'message': 'You have been verified, You may proceed!', 'score': body.score });
 
-    } catch (err) {
-        console.error(err);
-        res.json(err);
+    } catch (error) {
+        res.send(error);
     }
 });
 
@@ -76,11 +72,10 @@ router.post('/login', passport.authenticate('local'), (req, res, next) => {
     console.log("in login")
     console.log(req.session)
     try {
-        // this.isAuthenticated = true;
-        res.send.json({ ...req.user })
+        res.status(200).send({ ...req.user })
 
-    } catch (err) {
-        res.json(err)
+    } catch (error) {
+        res.status(500).send(error)
     }
 })
 
@@ -92,8 +87,8 @@ router.get('/logout', (req, res, next) => {
         console.log(req.session)
         this.isAuthenticated = false;
         console.log('session destroyed!')
-    } catch (err) {
-        res.json(err)
+    } catch (error) {
+        res.status(500).send(error)
     }
 })
 
@@ -105,9 +100,9 @@ router.get('/userid', (req, res, next) => {
     console.log("in user session")
     try {
         console.log(req.session.passport.user)
-        res.send({ userid: req.session.passport.user })
-    } catch (err) {
-        res.json(err)
+        res.status(200).send({ userid: req.session.passport.user })
+    } catch (error) {
+        res.status(500).send(error)
     }
 })
 
@@ -123,31 +118,12 @@ router.get('/userrole/:id', (req, res, next) => {
             _id: id
         });
         console.log(existingUser.role)
-        // user = { ...existingUser }
-        // console.log(req.session.passport.user)
-        res.send({ role: existingUser.role })
+        res.status(200).send({ role: existingUser.role })
 
-        // res.send(req.session.passport.user)
-    } catch (err) {
-        // console.log("this error")
-        res.json(err)
-
+    } catch (error) {
+        res.status(500).send(error)
     }
 
-
-    // console.log("in get role")
-    // try {
-    //     const existingUser = await User.findOne({
-    //         _id
-    //     });
-    //     if (!existingUser) {
-    //         return res.status(404).send()
-    //     }
-    //     res.send(existingUser)
-    //     console.log(existingUser)
-    // } catch (err) {
-    //     res.json(err)
-    // }
 })
 
 module.exports = router;

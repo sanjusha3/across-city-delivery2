@@ -4,7 +4,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 import { environment } from '../environments/environment';
-
+// import { NgxCaptchaModule } from 'ngx-captcha';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -20,6 +20,7 @@ import {
   ToastNoAnimationModule,
 } from 'ngx-toastr';
 import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.component';
+// import { OrderComponent } from './user/order/order.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.componen
     UserComponent,
     AdminComponent,
     UnauthorizedComponent,
+    // OrderComponent,
   ],
   imports: [
     CommonModule,
@@ -37,10 +39,11 @@ import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.componen
     HttpClientModule,
     AppRoutingModule,
     RecaptchaV3Module,
+    // NgxCaptchaModule,
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
+      timeOut: 2500,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
@@ -49,7 +52,7 @@ import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.componen
   providers: [
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useValue: environment.recaptcha.siteKey,
+      useValue: '6LcBUPwoAAAAAKaT5OADHTLyN78ERmJZQLlgiMIn',
     },
     {
       provide: HTTP_INTERCEPTORS,

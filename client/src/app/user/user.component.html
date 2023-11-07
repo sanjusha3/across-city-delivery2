@@ -86,7 +86,7 @@
                                 <input
                                   id="username"
                                   formControlName="username"
-                                  type="text"
+                                  type="username"
                                   class="form-control"
                                 />
                               </div>
@@ -106,7 +106,7 @@
                                 <input
                                   id="email"
                                   formControlName="email"
-                                  type="text"
+                                  type="email"
                                   class="form-control"
                                 />
                               </div>
@@ -148,8 +148,6 @@
                     <div
                       class="modal fade"
                       id="exampleModalToggle2"
-                      data-bs-backdrop="static"
-                      data-bs-keyboard="false"
                       aria-hidden="true"
                       aria-labelledby="exampleModalToggleLabel2"
                       tabindex="-1"
@@ -185,6 +183,7 @@
                       data-bs-toggle="modal"
                       href="#exampleModalToggle"
                       role="button"
+                      (click)="handleUpdate()"
                       >Update Details</a
                     >
                   </div>

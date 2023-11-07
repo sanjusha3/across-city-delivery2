@@ -7,6 +7,7 @@ const passport = require('passport');
 const cors = require('cors')
 require('./config/passport')
 const User = require('./models/user')
+const Order = require('./models/order')
 const port = process.argv[2] || 3000
 const app = express()
 app.use(cors({

@@ -48,8 +48,7 @@ export class LoginComponent implements OnInit {
     );
     res.subscribe({
       next: (res) => {
-        console.log(res);
-        // let userid = null;
+        // console.log(res);
         if (this.loginForm.value.username === 'Admin') {
           this.router.navigate(['/admin']);
           this.authService.isAdmin = true;
@@ -58,49 +57,25 @@ export class LoginComponent implements OnInit {
           this.authService.isAuthenticated = true;
         }
         this.authService.getuserid().subscribe((response) => {
-          console.log(response['userid']);
+          // console.log(response['userid']);
           this.userid = response['userid'];
           this.authService.getrole(this.userid).subscribe((response) => {
-            // return response;
-            console.log(response);
+            // console.log(response);
             this.role = response;
             console.log(this.role);
             console.log('found role here');
             localStorage.setItem('role', this.role.role);
             console.log(localStorage.getItem('role'));
-            // if (this.role === 'ADMIN') {
-            //   console.log('youre the admin');
-            //   this.authService.isAdmin = true;
-            //   this.router.navigate(['/admin']);
-            // } else if (this.role === 'USER') {
-            //   this.authService.isAuthenticated = true;
-            //   this.router.navigate(['/user']);
-            // }
           });
         });
         this.toastr.success('You are now logged in!');
-        // this.authService.loggedIn.next;
         localStorage.setItem('username', this.loginForm.value.username);
       },
       error: (error) => {
-        console.log(error.message);
+        console.log(error.error);
         this.toastr.error('Please enter valid credentials!');
-        this.errorVal = error.message;
+        this.errorVal = error.error;
       },
     });
   }
 }
-
-// console.log(this.userid);
-// console.log('hello');
-
-// console.log(this.role);
-// const role = getrole()
-
-// if (this.loginForm.value.username === 'Admin') {
-//   this.router.navigate(['/admin']);
-//   this.authService.isAdmin = true;
-// } else {
-//   this.router.navigate(['/user']);
-//   this.authService.isAuthenticated = true;
-// }

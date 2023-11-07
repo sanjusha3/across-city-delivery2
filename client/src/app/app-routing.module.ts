@@ -13,13 +13,11 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   { path: 'user', component: UserComponent, canActivate: [CanActivate] },
-
   {
     path: 'admin',
     component: AdminComponent,
     canActivate: [CanActivate2],
   },
-
   { path: 'unauthorized', component: UnauthorizedComponent },
 ];
 

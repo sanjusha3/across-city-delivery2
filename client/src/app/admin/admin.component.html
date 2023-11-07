@@ -26,8 +26,6 @@
               <div
                 class="modal fade"
                 id="staticBackdrop"
-                data-bs-backdrop="static"
-                data-bs-keyboard="false"
                 tabindex="-1"
                 aria-labelledby="staticBackdropLabel"
                 aria-hidden="true"
@@ -96,15 +94,7 @@
                             class="form-control"
                           />
                         </div>
-                        <span
-                          *ngIf="
-                            !updateForm.get('username').valid &&
-                            updateForm.get('username').touched
-                          "
-                          class="help-block"
-                        >
-                          Please enter a valid username!</span
-                        >
+                        <span class="help-block"> </span>
                         <div class="mb-3">
                           <label class="col-form-label"><b>Email:</b></label>
                           <input
@@ -114,12 +104,7 @@
                             class="form-control"
                           />
                         </div>
-                        <span
-                          *ngIf="
-                            updateForm.get('email').touched &&
-                            updateForm.get('email').invalid
-                          "
-                        >
+                        <span *ngIf="updateForm.get('email').invalid">
                           <span
                             *ngIf="updateForm.get('email').errors?.['required']"
                             class="help-block"
@@ -151,7 +136,6 @@
               <div
                 class="modal fade"
                 id="exampleModalToggle2"
-                data-bs-backdrop="static"
                 data-bs-keyboard="false"
                 aria-hidden="true"
                 aria-labelledby="exampleModalToggleLabel2"
@@ -173,12 +157,12 @@
                         >
                           Prev
                         </button> -->
-                      <button
+                      <!-- <button
                         type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
-                      ></button>
+                      ></button> -->
                       <!-- </div> -->
                     </div>
                     <div class="modal-body">
@@ -188,7 +172,6 @@
                       <button
                         class="btn btn-sm btn-outline-secondary"
                         data-bs-dismiss="modal"
-                        data-bs-toggle="modal"
                         type="submit"
                         (click)="onUpdate()"
                       >
@@ -205,6 +188,7 @@
                 href="#exampleModalToggle"
                 role="button"
                 (click)="setSelectedId(user._id)"
+                (click)="handleUpdate(user.username, user.email)"
               >
                 Update Details
               </button>
@@ -250,8 +234,6 @@
     <div
       class="modal fade"
       id="addUserModal"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
       aria-hidden="true"
       aria-labelledby="exampleModalToggleLabel"
       tabindex="-1"
@@ -294,7 +276,7 @@
               <span
                 *ngIf="
                   !userForm.get('username').valid &&
-                  userForm.get('username').touched
+                  userForm.get('email').touched
                 "
                 class="help-block"
               >
@@ -311,7 +293,7 @@
               </div>
               <span
                 *ngIf="
-                  userForm.get('email').touched && userForm.get('email').invalid
+                  userForm.get('email').invalid && userForm.get('email').touched
                 "
               >
                 <span
