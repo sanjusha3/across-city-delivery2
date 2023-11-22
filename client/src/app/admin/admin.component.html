@@ -9,7 +9,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of usersArray">
+        <tr
+          *ngFor="
+            let user of usersArray
+              | paginate
+                : {
+                    itemsPerPage: itemsPerPage,
+                    currentPage: p,
+                    totalItems: usersArray.length
+                  }
+          "
+        >
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td>
@@ -197,6 +207,10 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="pagination-controls">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
     <!-- <div
       class="modal fade"
       id="#duplicate"

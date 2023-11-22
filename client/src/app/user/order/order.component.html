@@ -1,0 +1,102 @@
+<div class="outer position-relative vstack">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4 col-lg-4 offset-lg-4 offset-md-4">
+        <div
+          class="d-flex flex-column align-items-center justify-content-center border bg-white"
+        >
+          <div class="panel-heading">
+            <h2 class="p-3 font-weight-bold">Place New Order</h2>
+          </div>
+
+          <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+            <div
+              class="d-flex flex-column align-items-center justify-content-center"
+            >
+              <div class="form-floating form-group">
+                <input
+                  type="text"
+                  id="itemName"
+                  formControlName="itemName"
+                  class="form-control"
+                />
+                <label for="floatingInput">Item Name</label>
+                <span
+                  *ngIf="
+                    !orderForm.get('itemName').valid &&
+                    orderForm.get('itemName').touched
+                  "
+                  class="help-block"
+                >
+                  Please enter a valid item name!</span
+                >
+              </div>
+              <div class="form-floating form-group">
+                <input
+                  type="text"
+                  id="itemWeight"
+                  formControlName="itemWeight"
+                  class="form-control"
+                />
+                <label for="floatingInput">Item Weight</label>
+                <span
+                  *ngIf="
+                    !orderForm.get('itemWeight').valid &&
+                    orderForm.get('itemWeight').touched
+                  "
+                  class="help-block"
+                >
+                  Please enter a valid item weight!</span
+                >
+              </div>
+              <div class="form-floating form-group">
+                <input
+                  type="textarea"
+                  id="pickupAddress"
+                  formControlName="pickupAddress"
+                  class="form-control"
+                />
+                <label for="floatingInput">Pickup Address</label>
+                <span
+                  *ngIf="
+                    !orderForm.get('pickupAddress').valid &&
+                    orderForm.get('pickupAddress').touched
+                  "
+                  class="help-block"
+                >
+                  Please enter valid address!</span
+                >
+              </div>
+              <div class="form-floating form-group">
+                <input
+                  type="textarea"
+                  id="dropAddress"
+                  formControlName="dropAddress"
+                  class="form-control"
+                />
+                <label for="floatingInput">Drop Address</label>
+                <span
+                  *ngIf="
+                    !orderForm.get('dropAddress').valid &&
+                    orderForm.get('dropAddress').touched
+                  "
+                  class="help-block"
+                >
+                  Please enter valid address!</span
+                >
+              </div>
+
+              <button
+                class="btn btn-lg btn-outline-secondary"
+                type="submit"
+                [disabled]="!orderForm.valid"
+              >
+                Place Order
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

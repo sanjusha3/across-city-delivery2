@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { CustomvalidationService } from '../auth/customvalidation.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgxPaginationModule } from 'ngx-pagination';
 // import { Modal } from 'bootstrap';
 
 @Component({
@@ -32,6 +33,8 @@ export class AdminComponent implements OnInit {
   errorVal2: string;
   userCreated: Boolean = false;
   doesntExist: Boolean = false;
+  p: number = 1;
+  itemsPerPage: number = 10;
 
   ngOnInit() {
     this.isEdit = false;
@@ -130,7 +133,7 @@ export class AdminComponent implements OnInit {
       next: (res2) => {
         // console.log(res2);
 
-        this.toastr.success(res2['data']);
+        this.toastr.success(res2['message']);
         this.router.navigate(['/admin']);
         this.getUsers();
       },

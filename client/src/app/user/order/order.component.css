@@ -1,0 +1,17 @@
+.outer {
+  margin-top: 70px;
+}
+.container {
+  margin: 30px;
+}
+.form-group {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+.form-floating:focus-within {
+  z-index: 2;
+}

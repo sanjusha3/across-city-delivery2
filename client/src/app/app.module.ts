@@ -14,6 +14,7 @@ import { UserComponent } from './user/user.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthInterceptorService } from './auth-interceptor.service';
 import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 import {
   ToastrModule,
   ToastNoAnimation,
@@ -48,6 +49,7 @@ import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.componen
       preventDuplicates: true,
     }),
     ToastNoAnimationModule.forRoot(),
+    NgxPaginationModule,
   ],
   providers: [
     {
