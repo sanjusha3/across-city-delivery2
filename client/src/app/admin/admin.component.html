@@ -9,17 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="
-            let user of usersArray
-              | paginate
-                : {
-                    itemsPerPage: itemsPerPage,
-                    currentPage: p,
-                    totalItems: usersArray.length
-                  }
-          "
-        >
+        <tr *ngFor="let user of usersArray">
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td>
@@ -47,118 +37,118 @@
                         Confirmation
                       </h5>
 
-                      <!-- <ng-content></ng-content> -->
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div class="modal-body">
-                      Are you sure you want to delete this user?
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        class="btn btn-sm btn-outline-secondary"
-                        data-bs-dismiss="modal"
-                        type="submit"
-                        (click)="onDelete()"
-                      >
-                        Confirm
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="modal fade"
-                id="exampleModalToggle"
-                aria-hidden="true"
-                aria-labelledby="exampleModalToggleLabel"
-                tabindex="-1"
-              >
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalToggleLabel">
-                        Details:
-                      </h5>
-
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div class="modal-body">
-                      <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
-                        <div class="mb-3">
-                          <label class="col-form-label"><b>Name:</b></label>
-                          <input
-                            id="username"
-                            formControlName="username"
-                            type="text"
-                            class="form-control"
-                          />
-                        </div>
-                        <span class="help-block"> </span>
-                        <div class="mb-3">
-                          <label class="col-form-label"><b>Email:</b></label>
-                          <input
-                            id="email"
-                            formControlName="email"
-                            type="text"
-                            class="form-control"
-                          />
-                        </div>
-                        <span *ngIf="updateForm.get('email').invalid">
-                          <span
-                            *ngIf="updateForm.get('email').errors?.['required']"
-                            class="help-block"
-                          >
-                            Please enter an email!</span
-                          >
-                          <span
-                            *ngIf="updateForm.get('email').errors?.['email']"
-                            class="help-block"
-                            >Email is invalid!</span
-                          >
-                        </span>
-                      </form>
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        class="btn btn-sm btn-outline-secondary"
-                        data-bs-target="#exampleModalToggle2"
-                        data-bs-toggle="modal"
-                        data-bs-dismiss="modal"
-                        [disabled]="!updateForm.valid"
-                      >
-                        Update
-                      </button>
+                        <!-- <ng-content></ng-content> -->
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to delete this user?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          class="btn btn-sm btn-outline-secondary"
+                          data-bs-dismiss="modal"
+                          type="submit"
+                          (click)="onDelete()"
+                        >
+                          Confirm
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="modal fade"
-                id="exampleModalToggle2"
-                data-bs-keyboard="false"
-                aria-hidden="true"
-                aria-labelledby="exampleModalToggleLabel2"
-                tabindex="-1"
-              >
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalToggleLabel2">
-                        Confirmation
-                      </h5>
-                      <!-- <div flex> -->
-                      <!-- <button
+
+                <div
+                  class="modal fade"
+                  id="exampleModalToggle"
+                  aria-hidden="true"
+                  aria-labelledby="exampleModalToggleLabel"
+                  tabindex="-1"
+                >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalToggleLabel">
+                          Details:
+                        </h5>
+
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                          <div class="mb-3">
+                            <label class="col-form-label"><b>Name:</b></label>
+                            <input
+                              id="username"
+                              formControlName="username"
+                              type="text"
+                              class="form-control"
+                            />
+                          </div>
+                          <span class="help-block"> </span>
+                          <div class="mb-3">
+                            <label class="col-form-label"><b>Email:</b></label>
+                            <input
+                              id="email"
+                              formControlName="email"
+                              type="text"
+                              class="form-control"
+                            />
+                          </div>
+                          <span *ngIf="updateForm.get('email').invalid">
+                            <span
+                              *ngIf="updateForm.get('email').errors?.['required']"
+                              class="help-block"
+                            >
+                              Please enter an email!</span
+                            >
+                            <span
+                              *ngIf="updateForm.get('email').errors?.['email']"
+                              class="help-block"
+                              >Email is invalid!</span
+                            >
+                          </span>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          class="btn btn-sm btn-outline-secondary"
+                          data-bs-target="#exampleModalToggle2"
+                          data-bs-toggle="modal"
+                          data-bs-dismiss="modal"
+                          [disabled]="!updateForm.valid"
+                        >
+                          Update
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="modal fade"
+                  id="exampleModalToggle2"
+                  data-bs-keyboard="false"
+                  aria-hidden="true"
+                  aria-labelledby="exampleModalToggleLabel2"
+                  tabindex="-1"
+                >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalToggleLabel2">
+                          Confirmation
+                        </h5>
+                        <!-- <div flex> -->
+                        <!-- <button
                           type="button"
                           class="btn btn-sm me-3 btn-outline-secondary"
                           data-bs-target="#exampleModalToggle"
@@ -167,30 +157,30 @@
                         >
                           Prev
                         </button> -->
-                      <!-- <button
+                        <!-- <button
                         type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
                       ></button> -->
-                      <!-- </div> -->
-                    </div>
-                    <div class="modal-body">
-                      Are you sure you want to update these?
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        class="btn btn-sm btn-outline-secondary"
-                        data-bs-dismiss="modal"
-                        type="submit"
-                        (click)="onUpdate()"
-                      >
-                        Confirm
-                      </button>
+                        <!-- </div> -->
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to update these?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          class="btn btn-sm btn-outline-secondary"
+                          data-bs-dismiss="modal"
+                          type="submit"
+                          (click)="onUpdate()"
+                        >
+                          Confirm
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
               <button
                 class="btn btn-sm btn-outline-secondary"
@@ -207,10 +197,6 @@
         </tr>
       </tbody>
     </table>
-
-    <div class="pagination-controls">
-      <pagination-controls (pageChange)="p = $event"></pagination-controls>
-    </div>
     <!-- <div
       class="modal fade"
       id="#duplicate"
@@ -245,27 +231,27 @@
         </div>
       </div>
     </div> -->
-    <div
-      class="modal fade"
-      id="addUserModal"
-      aria-hidden="true"
-      aria-labelledby="exampleModalToggleLabel"
-      tabindex="-1"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">User Details:</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form [formGroup]="userForm" (ngSubmit)="onCreateUser()">
-              <!-- <div
+      <div
+        class="modal fade"
+        id="addUserModal"
+        aria-hidden="true"
+        aria-labelledby="exampleModalToggleLabel"
+        tabindex="-1"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">User Details:</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="userForm" (ngSubmit)="onCreateUser()">
+                <!-- <div
                 class="alert alert-danger alert-dismissible fade show"
                 role="alert"
                 *ngIf="errorVal2"
@@ -278,101 +264,118 @@
                   aria-label="Close"
                 ></button>
               </div> -->
-              <div class="mb-3">
-                <label class="col-form-label"><b>Name:</b></label>
-                <input
-                  id="username"
-                  formControlName="username"
-                  type="text"
-                  class="form-control"
-                />
-              </div>
-              <span
-                *ngIf="
-                  !userForm.get('username').valid &&
-                  userForm.get('email').touched
-                "
-                class="help-block"
-              >
-                Please enter a valid username!</span
-              >
-              <div class="mb-3">
-                <label class="col-form-label"><b>Email:</b></label>
-                <input
-                  id="email"
-                  formControlName="email"
-                  type="email"
-                  class="form-control"
-                />
-              </div>
-              <span
-                *ngIf="
-                  userForm.get('email').invalid && userForm.get('email').touched
-                "
-              >
+                <div class="mb-3">
+                  <label class="col-form-label"><b>Name:</b></label>
+                  <input
+                    id="username"
+                    formControlName="username"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
                 <span
                   *ngIf="
-              userForm.get('email').errors?.['required']
-            "
-                  class="help-block"
-                >
-                  Please enter an email!</span
-                >
-                <span
-                  *ngIf="userForm.get('email').errors?.['email']"
-                  class="help-block"
-                  >Email is invalid!</span
-                >
-              </span>
-              <div class="mb-3">
-                <label class="col-form-label"><b>Password:</b></label>
-                <input
-                  id="password"
-                  formControlName="password"
-                  type="password"
-                  class="form-control"
-                />
-                <span
-                  *ngIf="userForm.get('password').errors?.['minlength']"
-                  class="help-block"
-                  >Password must be at least 8 characters!
-                </span>
-                <div
-                  *ngIf="
-                    !userForm.get('password').valid &&
-                    userForm.get('password').touched
+                    !userForm.get('username').valid &&
+                    userForm.get('email').touched
                   "
                   class="help-block"
                 >
-                  Your password should contain a capital letter, a digit and a
-                  special character!
+                  Please enter a valid username!</span
+                >
+                <div class="mb-3">
+                  <label class="col-form-label"><b>Email:</b></label>
+                  <input
+                    id="email"
+                    formControlName="email"
+                    type="email"
+                    class="form-control"
+                  />
                 </div>
-              </div>
-            </form>
-          </div>
+                <span
+                  *ngIf="
+                    userForm.get('email').invalid &&
+                    userForm.get('email').touched
+                  "
+                >
+                  <span
+                    *ngIf="
+              userForm.get('email').errors?.['required']
+            "
+                    class="help-block"
+                  >
+                    Please enter an email!</span
+                  >
+                  <span
+                    *ngIf="userForm.get('email').errors?.['email']"
+                    class="help-block"
+                    >Email is invalid!</span
+                  >
+                </span>
+                <div class="mb-3">
+                  <label class="col-form-label"><b>Password:</b></label>
+                  <input
+                    id="password"
+                    formControlName="password"
+                    type="password"
+                    class="form-control"
+                  />
+                  <span
+                    *ngIf="userForm.get('password').errors?.['minlength']"
+                    class="help-block"
+                    >Password must be at least 8 characters!
+                  </span>
+                  <div
+                    *ngIf="
+                      !userForm.get('password').valid &&
+                      userForm.get('password').touched
+                    "
+                    class="help-block"
+                  >
+                    Your password should contain a capital letter, a digit and a
+                    special character!
+                  </div>
+                </div>
+              </form>
+            </div>
 
-          <div class="modal-footer">
-            <button
-              class="btn btn-sm btn-outline-secondary"
-              data-bs-toggle="modal"
-              data-bs-dismiss="modal"
-              type="submit"
-              (click)="onCreateUser()"
-              [disabled]="!userForm.valid"
-            >
-              Create User
-            </button>
+            <div class="modal-footer">
+              <button
+                class="btn btn-sm btn-outline-secondary"
+                data-bs-toggle="modal"
+                data-bs-dismiss="modal"
+                type="submit"
+                (click)="onCreateUser()"
+                [disabled]="!userForm.valid"
+              >
+                Create User
+              </button>
+            </div>
           </div>
         </div>
+        <!-- <mat-paginator
+          #paginator
+          class="demo-paginator"
+          (page)="handlePageEvent($event)"
+          [length]="length"
+          [pageSize]="pageSize"
+          [disabled]="disabled"
+          [showFirstLastButtons]="showFirstLastButtons"
+          [pageSizeOptions]="showPageSizeOptions"
+          [hidePageSize]="hidePageSize"
+          [pageIndex]="pageIndex"
+          aria-label="Select page"
+        >
+        </mat-paginator> -->
       </div>
+
+      <button
+        data-bs-toggle="modal"
+        href="#addUserModal"
+        role="button"
+        class="btn btn-lg btn-outline-secondary"
+      >
+        Add new user
+      </button>
     </div>
-    <button
-      data-bs-toggle="modal"
-      href="#addUserModal"
-      role="button"
-      class="btn btn-lg btn-outline-secondary"
-    >
-      Add new user
-    </button>
   </div>
 </div>

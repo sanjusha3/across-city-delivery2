@@ -2,12 +2,18 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const { validateSignup, validateLogin } = require('../validator/validator')
 
 const User = require('../models/user');
 const authorize = require('../middleware/authorize')
 
 router.post('/admin/user', authorize('ADMIN'), async (req, res, next) => {
     try {
+        const { error, value } = validateSignup(req.body);
+        if (error) {
+            console.log(error.details)
+            return res.send(error.details);
+        }
         console.log("here in create user API")
         const { username, email, password } = req.body;
         const existingUser = await User.findOne({
@@ -37,12 +43,14 @@ router.post('/admin/user', authorize('ADMIN'), async (req, res, next) => {
 router.get('/admin/user',
     authorize('ADMIN')
     , async (req, res, next) => {
+        console.log(req.query)
         try {
             User.find({ "role": "USER" }).select('_id username email').then((users) => {
 
                 if (!users) {
                     return res.status(404).send('Users not found!')
                 }
+                console.log(users)
                 res.status(200).send(users)
             })
         }
@@ -69,7 +77,7 @@ router.get('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
 
 router.patch('/admin/user/:id', authorize('ADMIN'), async (req, res, next) => {
     const updates = Object.keys(req.body);
-    const allowedUpdates = ['username', 'email', 'password'];
+    const allowedUpdates = ['username', 'email'];
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
     if (!isValidOperation) {

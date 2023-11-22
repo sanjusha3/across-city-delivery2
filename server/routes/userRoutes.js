@@ -51,18 +51,18 @@ router.patch('/user/:id', authorize('USER'), async (req, res, next) => {
 
 router.post('/user/order', authorize('USER'), async (req, res, next) => {
     try {
-        console.log("here in create user API")
-        const { itemName, itemWeight, pickupAddress, deliveryAddress } = req.body;
+        console.log("here in create order API")
+        const { itemName, itemWeight, pickupAddress, dropAddress } = req.body;
 
         const newOrder = new Order({
-            itemName, itemWeight, pickupAddress, deliveryAddress,
+            itemName, itemWeight, pickupAddress, dropAddress,
         });
-
+        console.log(newOrder)
         await newOrder.save();
 
         res.status(201).send({ 'message': 'Order Placed!' });
     } catch (error) {
-        res.send(error);
+        res.status(500).send(error);
     }
 })
 

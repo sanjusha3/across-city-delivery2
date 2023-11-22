@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { Router } from '@angular/router';
 
-// import { NgForm } from '@angular/forms';
-// import { ReCaptchaV3Service } from 'ng-recaptcha';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,10 +10,7 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   userid;
   role;
-  constructor(
-    public authService: AuthService,
-    public router: Router // private recaptchaV3Service: ReCaptchaV3Service
-  ) {}
+  constructor(public authService: AuthService, public router: Router) {}
   ngOnInit() {
     this.authService.autoLogin();
     this.authService.getuserid().subscribe((res) => {
@@ -36,11 +30,3 @@ export class AppComponent implements OnInit {
     });
   }
 }
-
-// this.recaptchaV3Service
-//   .execute('importantAction')
-//   .subscribe((token: string) => {
-//     console.debug(`Token [${token}] generated`);
-//   });
-//   }
-// }

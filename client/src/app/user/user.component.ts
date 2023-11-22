@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Modal } from 'bootstrap';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -22,6 +22,7 @@ export class UserComponent implements OnInit {
   username;
   isloading: Boolean;
   constructor(
+    private router: Router,
     private http: HttpClient,
     public authService: AuthService,
     private toastr: ToastrService
@@ -77,11 +78,11 @@ export class UserComponent implements OnInit {
       email: this.email,
     });
   }
-  // prepopulate() {
-  //   console.log(this.email);
-  //   this.update2Form.value.username.setValue(this.username);
-  //   this.update2Form.value.email.setValue(this.email);
-  // }
+
+  handleOrder() {
+    this.router.navigate(['user/order']);
+  }
+
   onUpdate() {
     console.log('in');
     const username = this.update2Form.value.username;

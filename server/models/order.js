@@ -17,7 +17,7 @@ const Order = mongoose.model('Order', {
         required: true
 
     },
-    deliveryAddress: {
+    dropAddress: {
         type: String,
         required: true
     }

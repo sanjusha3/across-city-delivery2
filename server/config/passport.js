@@ -9,8 +9,6 @@ const customFields = {
     passwordField: 'password'
 };
 
-
-
 const verifyCallback = (username, password, done) => {
     User.findOne({ username: username })
         .then(async (user) => {

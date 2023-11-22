@@ -2,19 +2,24 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const axios = require('axios');
+const Joi = require('joi')
 const User = require('../models/user');
 const passport = require('passport');
+const { validateSignup, validateLogin } = require('../validator/validator')
 isAuthenticated: Boolean;
-
 
 router.post('/signup', async (req, res, next) => {
     try {
+        const { error, value } = validateSignup(req.body);
+        if (error) {
+            console.log(error.details)
+            return res.send(error.details);
+        }
         console.log("here in signup API")
         const { username, email, password } = req.body;
         const existingUser = await User.findOne({
             $or: [{ username }, { email }]
         });
-        console.log(existingUser)
 
         if (existingUser) {
             console.log("please login")
@@ -27,6 +32,7 @@ router.post('/signup', async (req, res, next) => {
             username, email, password: hashedPassword,
         });
 
+        console.log(hashedPassword);
         await newUser.save();
 
         res.status(201).send({ 'message': 'User registered successfully' });
@@ -68,7 +74,14 @@ router.post('/verify', async (req, res, next) => {
     }
 });
 
-router.post('/login', passport.authenticate('local'), (req, res, next) => {
+router.post('/login', (req, res, next) => {
+    const { error, value } = validateLogin(req.body);
+    if (error) {
+        console.log(error.details);
+        return res.send(error.details);
+    }
+    next();
+}, passport.authenticate('local'), (req, res, next) => {
     console.log("in login")
     console.log(req.session)
     try {

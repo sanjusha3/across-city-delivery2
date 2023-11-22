@@ -4,6 +4,10 @@
 .btn-dl {
   margin-right: 50px;
 }
+mat-paginator {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
@@ -16,4 +20,26 @@ input.ng-invalid.ng-touched {
   padding: 15px;
   margin-top: 35px;
   margin: auto;
+}
+.demo-toggles {
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-toggles * {
+  margin-bottom: 16px;
+}
+
+.demo-options {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+.demo-data * {
+  margin: 16px 0;
+}
+
+.demo-paginator {
+  width: 600px;
 }
