@@ -5,7 +5,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
 import { environment } from '../environments/environment';
 // import { NgxCaptchaModule } from 'ngx-captcha';
-import { MatTableModule } from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,7 +47,7 @@ import { OrderComponent } from './user/order/order.component';
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      timeOut: 2500,
+      timeOut: 1500,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),

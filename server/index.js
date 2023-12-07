@@ -5,9 +5,9 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors')
-require('./config/passport')
-const User = require('./models/user')
-const Order = require('./models/order')
+require('./src/config/passport')
+const User = require('./src/models/user')
+const Order = require('./src/models/order')
 const port = process.argv[2] || 3000
 const app = express()
 app.use(cors({
@@ -45,9 +45,9 @@ app.get('/', (req, res, next) => {
     console.log(req.session);
 })
 
-app.use('', require('./routes/authRoutes'));
-app.use('', require('./routes/adminRoutes'));
-app.use('', require('./routes/userRoutes'));
+app.use('', require('./src/routes/authRoutes'));
+app.use('', require('./src/routes/adminRoutes'));
+app.use('', require('./src/routes/userRoutes'));
 
 
 app.use((err, req, res, next) => {

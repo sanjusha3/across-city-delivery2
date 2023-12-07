@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { catchError, throwError, Observable, BehaviorSubject } from 'rxjs';
-import { User } from '../auth/user.model';
+import { User } from './auth/user.model';
 const localUsername = localStorage.getItem('username');
 const localRole = localStorage.getItem('role');
 
@@ -45,6 +45,8 @@ export class AuthService {
   }
 
   logoutUser() {
+    // console.log("hhhhhhhhhhh");
+    
     this.http.get('http://localhost:3000/logout').subscribe((res) => {
       console.log(res);
     });

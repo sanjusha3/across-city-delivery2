@@ -10,12 +10,14 @@ const customFields = {
 };
 
 const verifyCallback = (username, password, done) => {
+    console.log("passport");
     User.findOne({ username: username })
         .then(async (user) => {
             if (!user) {
-                return done("User not found!")
+                return res.status(400).send('This user doesnt exist! Please register!');
+                // return done("User not found!")
             }
-
+            console.log("in passport user local strategy");
             const isValid = await bcrypt.compare(password, user.password);
             console.log(isValid, user)
             if (isValid) {
@@ -25,9 +27,9 @@ const verifyCallback = (username, password, done) => {
                 console.log("invalid password")
                 return done("Invalid password", false);
             }
-        }).catch((err) => {
-            console.log("error1", err)
-            return done(err, false);
+        }).catch((error) => {
+            console.log("error1", error)
+            res.send(error)
         });
 }
 

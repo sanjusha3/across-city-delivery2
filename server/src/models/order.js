@@ -1,7 +1,12 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
 
 const Order = mongoose.model('Order', {
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+    },
     itemName: {
         type: String,
         required: true,

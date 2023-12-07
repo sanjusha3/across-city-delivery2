@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth.service';
 import { Subscription } from 'rxjs';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
-import { CustomvalidationService } from '../customvalidation.service';
+import { CustomvalidationService } from '../../customvalidation.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -73,7 +73,7 @@ export class SignupComponent implements OnInit {
           console.log(response);
 
           console.log(response['message']);
-          that.toastr.success(response['message']);
+          // that.toastr.success(response['message']);
 
           //user create API
           const res = this.authService.createUser(
@@ -87,6 +87,7 @@ export class SignupComponent implements OnInit {
               console.log(res);
               if (res !== '') {
                 that.toastr.success(res['message']);
+                that.toastr.success(response['message']);
                 that.router.navigate(['/login']);
               }
             },

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -48,32 +48,47 @@ export class LoginComponent implements OnInit {
     );
     res.subscribe({
       next: (res) => {
-        // console.log(res);
-        if (this.loginForm.value.username === 'Admin') {
+        console.log(res)
+        console.log(res['_doc']);
+        if (res['_doc'] && this.loginForm.value.username === 'Admin') {
           this.router.navigate(['/admin']);
+          this.toastr.success('You are now logged in!');
           this.authService.isAdmin = true;
-        } else {
+        } else if (res['_doc'] && this.loginForm.value.username !== 'Admin'){
           this.router.navigate(['/user']);
+          this.toastr.success('You are now logged in!');
           this.authService.isAuthenticated = true;
+        } else {
+          this.toastr.error('Please enter valid credentials!');
         }
+        // console.log("6767676767676");
+        
         this.authService.getuserid().subscribe((response) => {
-          // console.log(response['userid']);
+          console.log(response['userid']);
           this.userid = response['userid'];
           this.authService.getrole(this.userid).subscribe((response) => {
-            // console.log(response);
+            console.log(response);
             this.role = response;
             console.log(this.role);
-            console.log('found role here');
+            console.log('found role here',this.role.role );
             localStorage.setItem('role', this.role.role);
+            // console.log('set value in local storage');
+            
             console.log(localStorage.getItem('role'));
+            // this.toastr.success('You are now logged in!');
+            localStorage.setItem('username', this.loginForm.value.username);
           });
         });
-        this.toastr.success('You are now logged in!');
-        localStorage.setItem('username', this.loginForm.value.username);
+        // this.toastr.success('You are now logged in!');
+        // localStorage.setItem('username', this.loginForm.value.username);
       },
       error: (error) => {
+        console.log(error);
         console.log(error.error);
-        this.toastr.error('Please enter valid credentials!');
+
+        this.toastr.error(error.error);
+
+        // this.toastr.error('Please enter valid credentials!');
         this.errorVal = error.error;
       },
     });

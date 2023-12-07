@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, DoCheck } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

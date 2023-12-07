@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
-import { CustomvalidationService } from '../auth/customvalidation.service';
+import { AuthService } from '../auth.service';
+import { CustomvalidationService } from '../customvalidation.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -22,43 +22,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
-  // imports: [
-  //   MatFormFieldModule,
-  //   MatInputModule,
-  //   FormsModule,
-  //   MatSlideToggleModule,
-  //   MatPaginatorModule,
-  //   JsonPipe,
-  // ],
+  
 })
 export class AdminComponent implements OnInit {
-  // length = 50;
-  // pageSize = 10;
-  // pageIndex = 0;
-  // pageSizeOptions = [5, 10, 25];
-
-  // hidePageSize = false;
-  // showPageSizeOptions = false;
-  // showFirstLastButtons = true;
-  // disabled = false;
-  // dataSource = new MatTableDataSource<any>();
-  // pageEvent: PageEvent;
-
-  // handlePageEvent(e: PageEvent) {
-  //   // this.pageEvent = e;
-  //   this.length = e.length;
-  //   this.pageSize = e.pageSize;
-  //   this.pageIndex = e.pageIndex;
-  // }
-
-  // setPageSizeOptions(setPageSizeOptionsInput: string) {
-  //   if (setPageSizeOptionsInput) {
-  //     this.pageSizeOptions = setPageSizeOptionsInput
-  //       .split(',')
-  //       .map((str) => +str);
-  //   }
-  // }
-  // theArray: Observable<string[]>;
+  
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -78,14 +45,14 @@ export class AdminComponent implements OnInit {
   doesntExist: Boolean = false;
   p: number = 1;
   itemsPerPage: number = 10;
-  // dataSource;
-  // dataSource = new MatTableDataSource(this.usersArray);
+  get totalItems() {
+    if(this.usersArray){
+    return this.usersArray.length;}
+  }
+  // totalItems: number ;
   ngOnInit() {
     this.isEdit = false;
-    // this.theArray = new Observable((observer) => {
-    //   observer.next(this.usersArray);
-    // });
-    // this.dataSource = new MatTableDataSource(this.usersArray);
+
     this.getUsers();
     this.updateForm = new FormGroup({
       username: new FormControl('', [
@@ -205,8 +172,10 @@ export class AdminComponent implements OnInit {
     this.http.get('http://localhost:3000/admin/user').subscribe((res) => {
       console.log(res);
       this.usersArray = res;
+      // this.totalItems = usersArray.length
     });
   }
+
   setSelectedId(id) {
     this.selectedId = id;
   }

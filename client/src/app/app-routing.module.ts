@@ -9,6 +9,8 @@ import { OrderComponent } from './user/order/order.component';
 import { AdminComponent } from './admin/admin.component';
 import { CanActivate } from './auth.guard';
 import { CanActivate2 } from './auth.guard';
+import { CanActivate3 } from './auth.guard';
+
 
 const routes: Routes = [
   { path: 'signup', component: SignupComponent },
@@ -16,11 +18,11 @@ const routes: Routes = [
   {
     path: 'user',
     component: UserComponent,
-    canActivate: [CanActivate],
-    // canActivateChild: [CanActivate],
+    // canActivate: [CanActivate],
+    // canActivateChild: [CanActivate3],
     // children: [{ path: 'order', component: OrderComponent }],
   },
-  { path: 'user/order', component: OrderComponent, canActivate: [CanActivate] },
+  { path: 'order', component: OrderComponent, canActivate: [CanActivate3] },
   {
     path: 'admin',
     component: AdminComponent,

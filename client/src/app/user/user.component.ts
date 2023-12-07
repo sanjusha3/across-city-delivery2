@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,Input,  OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Modal } from 'bootstrap';
 import { Router } from '@angular/router';
@@ -14,29 +14,35 @@ import { Router } from '@angular/router';
 export class UserComponent implements OnInit {
   update2Form: FormGroup;
   res: Subscription;
+  // USERNAME;
   isEdit: Boolean = false;
   user;
   role;
   userid;
   email;
   username;
+  // @Input() USERNAME = this.username
+
+  
   isloading: Boolean;
   constructor(
     private router: Router,
     private http: HttpClient,
     public authService: AuthService,
     private toastr: ToastrService
-  ) {}
-  ngOnInit() {
-    this.authService.autoLogin();
-    this.getUser();
-    this.update2Form = new FormGroup({
-      username: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-    });
-  }
+    ) {}
+    ngOnInit() {
+      this.authService.autoLogin();
+      this.getUser();
+      this.update2Form = new FormGroup({
+        username: new FormControl('', Validators.required),
+        email: new FormControl('', [Validators.required, Validators.email]),
+      });
+    }
+    
 
   errorVal: String;
+
 
   getUser() {
     this.authService.getuserid().subscribe((response) => {
@@ -58,7 +64,7 @@ export class UserComponent implements OnInit {
         next: (res) => {
           console.log(res);
           this.isloading = false;
-
+          
           this.user = res;
           this.username = this.user.username;
           console.log(this.username);
@@ -80,7 +86,7 @@ export class UserComponent implements OnInit {
   }
 
   handleOrder() {
-    this.router.navigate(['user/order']);
+    // this.router.navigate(['user/order']);
   }
 
   onUpdate() {
@@ -90,6 +96,8 @@ export class UserComponent implements OnInit {
     console.log('submit', username, email);
     this.authService.getuserid().subscribe((res) => {
       this.userid = res['userid'];
+      console.log(this.userid)
+      console.log('logloglog')
       const response = this.http.patch(
         `http://localhost:3000/user/${this.userid}`,
         {
